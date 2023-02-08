@@ -115,9 +115,6 @@ Function Start-UserPrompt
 
 #Main program =================================================================================================================
 
-Import-Module DellBIOSProvider
-
-
 #Check if 32 or 64 bit architecture
 if([System.Environment]::Is64BitOperatingSystem)
 {
@@ -128,29 +125,6 @@ else
     $ModuleInstallPath = ${env:ProgramFiles(x86)}    
 }
 
-#Verify the DellBIOSProvider module is installed
-
-try
-{
-    $LocalVersion = Get-Package DellBIOSProvider -ErrorAction Stop | Select-Object -ExpandProperty Version
-}
-catch
-{
-    $Local = $true
-    if(Test-Path "$ModuleInstallPath\WindowsPowerShell\Modules\DellBIOSProvider")
-    {
-        $LocalVersion = Get-Content "$ModuleInstallPath\WindowsPowerShell\Modules\DellBIOSProvider\DellBIOSProvider.psd1" | Select-String "ModuleVersion ="
-        $LocalVersion = (([regex]".*'(.*)'").Matches($LocalVersion))[0].Groups[1].Value
-    }
-    else
-    {
-		Write-Host -ErrorMessage "DellBIOSProvider module not found on the local machine"
-    }
-}
-if(($NULL -ne $LocalVersion) -and (!($Local)))
-{
-     Write-Host "Error"
-}
 
 #Verify the DellBIOSProvider module is imported
 
