@@ -1,5 +1,4 @@
-﻿<#
-
+<#
 	.EXAMPLE
 		Set a new admin password
 		Manage-DellBiosPasswords-PSModule.ps1 -AdminSet -AdminPassword <String>
@@ -9,9 +8,8 @@
 
 		Clear existing admin password(s)
 		Manage-DellBiosPasswords-PSModule.ps1 -AdminClear -OldAdminPassword <String1>,<String2>,<String3>
-
-		Set a new admin password and set a new system password
-		Manage-DellBiosPasswords-PSModule.ps1 -AdminSet -SystemSet -AdminPassword <String> -SystemPassword <String>
+#		Set a new admin password and set a new system password
+#		Manage-DellBiosPasswords-PSModule.ps1 -AdminSet -SystemSet -AdminPassword <String> -SystemPassword <String>
 #>
 
 #Parameters ===================================================================================================================
@@ -116,6 +114,8 @@ Function Start-UserPrompt
 }
 
 #Main program =================================================================================================================
+
+Import-Module DellBIOSProvider
 
 
 #Check if 32 or 64 bit architecture
