@@ -27,15 +27,7 @@ param(
 	[Parameter(Mandatory=$false)][ValidateNotNullOrEmpty()][String[]]$OldSystemPassword,
 	[Parameter(Mandatory=$false)][Switch]$NoUserPrompt,
 	[Parameter(Mandatory=$false)][Switch]$ContinueOnError,
-	[Parameter(Mandatory=$false)][Switch]$SMSTSPasswordRetry,
-	[Parameter(Mandatory=$false)][ValidateScript({
-		if($_ -notmatch "(\.log)")
-		{
-			throw "The file specified in the LogFile paramter must be a .log file"
-		}
-		return $true
-	})]
-	[System.IO.FileInfo]$LogFile = "$ENV:ProgramData\ConfigJonScripts\Dell\Manage-DellBiosPasswords-PSModule.log"
+	[Parameter(Mandatory=$false)][Switch]$SMSTSPasswordRetry
 )
 
 #Functions ====================================================================================================================
@@ -124,28 +116,6 @@ Function Start-UserPrompt
 }
 
 #Main program =================================================================================================================
-
-#Configure Logging and task sequence variables
-	$LogsDirectory = ($LogFile | Split-Path)
-	if([string]::IsNullOrEmpty($LogsDirectory))
-	{
-		$LogsDirectory = $PSScriptRoot
-	}
-	else
-	{
-		if(!(Test-Path -PathType Container $LogsDirectory))
-		{
-			try
-			{
-				New-Item -Path $LogsDirectory -ItemType "Directory" -Force -ErrorAction Stop | Out-Null
-			}
-			catch
-			{
-				throw "Failed to create the log file directory: $LogsDirectory. Exception Message: $($PSItem.Exception.Message)"
-			}
-		}
-	}
-
 
 
 #Check if 32 or 64 bit architecture
