@@ -1,0 +1,14 @@
+$OldPassword = ""
+$NewPassword ="Abc@12345"
+
+$PasswordSet = Get-WmiObject -Namespace root\wmi -Class Lenovo_SetBiosPassword
+
+#Change the system management password
+$PasswordSet.SetBiosPassword("pap,$OldPassword,$NewPassword,ascii,us")
+
+
+# pap – Supervisor password
+# pop – Power on password
+# smp – System management password
+# uhdp1 – User hard drive password
+# mhdp1 – Master hard drive password
